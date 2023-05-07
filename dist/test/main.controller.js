@@ -9,20 +9,23 @@ var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-const http_decorator_1 = require("../src/decorator/http.decorator");
+exports.Test = void 0;
+const main_1 = require("../src/main");
 let Test = class Test {
     getHello() {
-        return "Hello world";
+        return {
+            statusCode: 200,
+        };
     }
 };
 __decorate([
-    (0, http_decorator_1.Get)(),
+    (0, main_1.GetMapping)(),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
     __metadata("design:returntype", void 0)
 ], Test.prototype, "getHello", null);
 Test = __decorate([
-    (0, http_decorator_1.Controller)()
+    (0, main_1.NestController)()
 ], Test);
-new Test();
-require("../src/index");
+exports.Test = Test;
+//# sourceMappingURL=main.controller.js.map

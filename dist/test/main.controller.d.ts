@@ -1,1 +1,5 @@
-import "../src/index";
+export declare class Test {
+    getHello(): {
+        statusCode: number;
+    };
+}

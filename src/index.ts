@@ -1,18 +1,27 @@
 import * as express from "express";
 import "reflect-metadata";
-import { componentContiner, HTTP_KEY } from "./decorator/http.decorator";
-import "./controller/user.controller";
-import { join } from "path";
+import {
+  componentContiner,
+  HTTP_KEY,
+  IControllerMetadata,
+  IMethodMetadata,
+} from "./decorator/http.decorator";
+import { initGET } from "./router/get";
+import { initPOST } from "./router/post";
 
 const app = express();
 
 // 路由分配
+// 遍历出来的item就是单个控制器类
 componentContiner.forEach((item) => {
   // 获取Controller反射
-  const { path, clazz } = Reflect.getMetadata(HTTP_KEY.Controller, item);
+  const controllerMetadata: IControllerMetadata = Reflect.getMetadata(
+    HTTP_KEY.Controller,
+    item
+  );
 
-  // Controller类的原型
-  const prototype = Object.getPrototypeOf(clazz);
+  // 获取Controller类的原型
+  const prototype = Object.getPrototypeOf(controllerMetadata.clazz);
 
   // 原型上的方法并过滤构造函数
   const methodNames = Object.getOwnPropertyNames(prototype).filter(
@@ -21,23 +30,9 @@ componentContiner.forEach((item) => {
 
   // 反射获取方法，并进行方法增强
   methodNames.forEach((element) => {
-    const func = Reflect.getMetadata(HTTP_KEY.Get, prototype[element]);
-    const { info, fn } = func;
-
-    // 进行路由组装
-    const getRoute = path.includes("/") ? path + info : `/${path}${info}`;
-
-    // url路径拼接
-    const urlPath = join("/" + path, info).replace(/\\/g, "/");
-
-    app.get(urlPath, (req, res) => {
-      const ret = fn();
-      res.send(ret);
-    });
+    initGET(prototype, element, controllerMetadata, app);
+    initPOST(prototype, element, controllerMetadata, app);
   });
 });
 
-app.listen(8000, () => {
-  // 设置端口号
-  console.log("app is running, port is 8000");
-});
+app.listen(8000, () => console.log("已启动"));

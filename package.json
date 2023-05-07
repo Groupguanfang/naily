@@ -1,12 +1,16 @@
 {
-  "name": "implement-nestjs",
+  "name": "mini-nest",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/src/main.js",
+  "files": [
+    "dist"
+  ],
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "tsc",
+    "dev": "npm run build && node dist/test/main"
   },
-  "author": "xiaoqinvar",
+  "author": "Zero <gczgroup@qq.com>",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.2",
@@ -14,6 +18,8 @@
   },
   "devDependencies": {
     "@types/express": "^4.17.17",
-    "@types/node": "^17.0.16"
+    "@types/express-serve-static-core": "^4.17.34",
+    "@types/node": "^17.0.16",
+    "express-serve-static-core": "^0.1.1"
   }
 }
