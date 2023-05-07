@@ -33,7 +33,7 @@
 
     /* 模块解析选项 */
     // "moduleResolution": "node",            // 选择模块解析策略： 'node' (Node.js) or 'classic' (TypeScript pre-1.6)
-    // "baseUrl": "./",                       // 用于解析非相对模块名称的基目录
+     // "baseUrl": "./",                       // 用于解析非相对模块名称的基目录
     // "paths": {},                           // 模块名到基于 baseUrl 的路径映射的列表
     // "rootDirs": [],                        // 根文件夹列表，其组合内容表示项目运行时的结构内容
     // "typeRoots": [],                       // 包含类型声明的文件列表
@@ -51,5 +51,6 @@
     "emitDecoratorMetadata": true,          // 为装饰器提供元数据的支持
     "skipLibCheck": true,                   // 跳过lib库检查
   },
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist"],
+  "include": ["./**/*"]
 }

@@ -1,51 +1,51 @@
 import { Application } from "express-serve-static-core";
+import {
+  HTTP_KEY,
+  IControllerMetadata,
+  IMethodMetadata,
+} from "../decorator/http.decorator";
 import { join } from "path";
 import {
   IinitParameter,
   analysisParameter,
   initParameter,
 } from "../common/parameter";
-import {
-  HTTP_KEY,
-  IControllerMetadata,
-  IMethodMetadata,
-} from "../decorator/http.decorator";
 
-export function initPOST(
+export function initOptions(
   prototype: string[],
   element: string,
   controllerMetadata: IControllerMetadata,
   app: Application
 ): void {
-  const methodPOSTData: IMethodMetadata = Reflect.getMetadata(
-    HTTP_KEY.Post,
+  const methodGETData: IMethodMetadata = Reflect.getMetadata(
+    HTTP_KEY.Options,
     prototype[element]
   );
 
-  if (!methodPOSTData) return;
+  if (!methodGETData) return;
 
-  const { info, fn } = methodPOSTData;
-
+  const { info, fn } = methodGETData;
   // url路径拼接
   const urlPath = join("/" + controllerMetadata.path, info).replace(/\\/g, "/");
 
   // 解析类函数内方法的参数
   const metadata = initParameter(controllerMetadata);
-  // 装载POST方法
-  PostMethod(fn, urlPath, app, metadata);
+
+  // 装载PATCH方法
+  OptionsMethod(fn, urlPath, app, metadata);
 }
 
-function PostMethod(
+function OptionsMethod(
   fn: Function,
   urlPath: string,
   app: Application,
-  parameters: IinitParameter
+  metadata: IinitParameter
 ) {
-  app.post(urlPath, (req, res) => {
+  app.options(urlPath, (req, res) => {
     // 解析出类中函数的参数
-    const getArgs = analysisParameter(parameters, fn, req);
+    const args = analysisParameter(metadata, fn, req);
     // 将参数赋予给类中函数 然后执行
-    const ret = fn(...getArgs);
+    const ret = fn(...args);
     // 发送类中函数返回的内容
     res.send(ret);
   });

@@ -7,6 +7,11 @@ export enum HTTP_KEY {
   Controller = "controller",
   Get = "get",
   Post = "post",
+  Put = "put",
+  Patch = "patch",
+  Delete = "delete",
+  Options = "options",
+  All = "all",
   Query = "query",
   Param = "param",
   Body = "body",
@@ -16,7 +21,7 @@ export interface IControllerMetadata {
   path: string;
   clazz: any;
 }
-export const NestController = function (path: string = "/"): ClassDecorator {
+export const RestController = function (path: string = "/"): ClassDecorator {
   return (target: any) => {
     // 为了不再index页面手动new 对象，采用类似spring容器的方式管理
     componentContiner.push(target);
@@ -58,6 +63,81 @@ export const PostMapping = (info: string = "/"): MethodDecorator => {
     // 会用到原始函数
     Reflect.defineMetadata(
       HTTP_KEY.Post,
+      {
+        info,
+        fn: desc.value,
+      },
+      desc.value
+    );
+  };
+};
+
+export const PutMapping = (info: string = "/"): MethodDecorator => {
+  // desc就是那个函数对象
+  return (target, methodName, desc) => {
+    // 会用到原始函数
+    Reflect.defineMetadata(
+      HTTP_KEY.Put,
+      {
+        info,
+        fn: desc.value,
+      },
+      desc.value
+    );
+  };
+};
+
+export const PatchMapping = (info: string = "/"): MethodDecorator => {
+  // desc就是那个函数对象
+  return (target, methodName, desc) => {
+    // 会用到原始函数
+    Reflect.defineMetadata(
+      HTTP_KEY.Patch,
+      {
+        info,
+        fn: desc.value,
+      },
+      desc.value
+    );
+  };
+};
+
+export const DeleteMapping = (info: string = "/"): MethodDecorator => {
+  // desc就是那个函数对象
+  return (target, methodName, desc) => {
+    // 会用到原始函数
+    Reflect.defineMetadata(
+      HTTP_KEY.Delete,
+      {
+        info,
+        fn: desc.value,
+      },
+      desc.value
+    );
+  };
+};
+
+export const OptionsMapping = (info: string = "/"): MethodDecorator => {
+  // desc就是那个函数对象
+  return (target, methodName, desc) => {
+    // 会用到原始函数
+    Reflect.defineMetadata(
+      HTTP_KEY.Options,
+      {
+        info,
+        fn: desc.value,
+      },
+      desc.value
+    );
+  };
+};
+
+export const RequestMapping = (info: string = "/"): MethodDecorator => {
+  // desc就是那个函数对象
+  return (target, methodName, desc) => {
+    // 会用到原始函数
+    Reflect.defineMetadata(
+      HTTP_KEY.All,
       {
         info,
         fn: desc.value,

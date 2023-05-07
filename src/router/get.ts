@@ -5,18 +5,24 @@ import {
   IMethodMetadata,
 } from "../decorator/http.decorator";
 import { join } from "path";
-import { IinitParameter, initParameter } from "src/common/parameter";
+import {
+  IinitParameter,
+  analysisParameter,
+  initParameter,
+} from "../common/parameter";
 
 export function initGET(
   prototype: string[],
   element: string,
   controllerMetadata: IControllerMetadata,
   app: Application
-) {
+): void {
   const methodGETData: IMethodMetadata = Reflect.getMetadata(
     HTTP_KEY.Get,
     prototype[element]
   );
+
+  if (!methodGETData) return;
 
   const { info, fn } = methodGETData;
   // url路径拼接
@@ -33,25 +39,14 @@ function GetMethod(
   fn: Function,
   urlPath: string,
   app: Application,
-  { queryMetadata, paramMetadata, bodyMetadata }: IinitParameter
+  metadata: IinitParameter
 ) {
   app.get(urlPath, (req, res) => {
-    // 即将调用的所有args
-    const args = [];
-    // 如果存在
-    if (queryMetadata && queryMetadata.name === fn.name) {
-      args[queryMetadata.index] = req.query;
-    }
-    if (paramMetadata && paramMetadata.name === fn.name) {
-      args[paramMetadata.index] = req.params;
-    }
-    if (bodyMetadata && bodyMetadata.name === fn.name) {
-      args[bodyMetadata.index] = req.body;
-    }
-
-    // 直接执行函数
+    // 解析出类中函数的参数
+    const args = analysisParameter(metadata, fn, req);
+    // 将参数赋予给类中函数 然后执行
     const ret = fn(...args);
-    // 发送请求
+    // 发送类中函数返回的内容
     res.send(ret);
   });
 }

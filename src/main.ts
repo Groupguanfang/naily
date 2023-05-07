@@ -1,7 +1,12 @@
 export {
   GetMapping,
   PostMapping,
-  NestController,
+  PutMapping,
+  PatchMapping,
+  DeleteMapping,
+  OptionsMapping,
+  RequestMapping,
+  RestController,
   Query,
   Param,
   Body,
