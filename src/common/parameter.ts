@@ -1,4 +1,4 @@
-import { Request } from "express-serve-static-core";
+import { Request, Response } from "express-serve-static-core";
 import {
   HTTP_KEY,
   IControllerMetadata,
@@ -10,6 +10,8 @@ export interface IinitParameter {
   paramMetadata: IParameterMetadata;
   bodyMetadata: IParameterMetadata;
   ipMetadata: IParameterMetadata;
+  reqMetadata: IParameterMetadata;
+  resMetadata: IParameterMetadata;
 }
 /**
  * 获取类中所有的`ParameterDecorator`所设置的的metadata
@@ -36,11 +38,21 @@ export function initParameter(
     HTTP_KEY.Ip,
     controllerMetadata.clazz
   );
+  const reqMetadata: IParameterMetadata = Reflect.getMetadata(
+    HTTP_KEY.Req,
+    controllerMetadata.clazz
+  );
+  const resMetadata: IParameterMetadata = Reflect.getMetadata(
+    HTTP_KEY.Res,
+    controllerMetadata.clazz
+  );
   return {
     queryMetadata,
     paramMetadata,
     bodyMetadata,
     ipMetadata,
+    reqMetadata,
+    resMetadata,
   };
 }
 
@@ -55,8 +67,9 @@ export function initParameter(
 export function analysisParameter(
   metadata: IinitParameter,
   fn: Function,
-  req: Request
-): any[] {
+  req: Request,
+  res: Response
+): { args: any[]; hasRes: boolean } {
   // 即将调用的所有args
   const args = [];
   // 如果存在
@@ -72,5 +85,14 @@ export function analysisParameter(
   if (metadata.ipMetadata && metadata.ipMetadata.name === fn.name) {
     args[metadata.ipMetadata.index] = req.ip;
   }
-  return args;
+  if (metadata.reqMetadata && metadata.reqMetadata.name === fn.name) {
+    args[metadata.reqMetadata.index] = req;
+  }
+
+  let hasRes = false;
+  if (metadata.resMetadata && metadata.resMetadata.name === fn.name) {
+    args[metadata.resMetadata.index] = res;
+    hasRes = true;
+  }
+  return { args, hasRes };
 }

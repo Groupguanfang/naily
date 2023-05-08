@@ -12,7 +12,7 @@ import { initPatch } from "./router/patch";
 import { initDelete } from "./router/delete";
 import { initOptions } from "./router/options";
 import { initAll } from "./router/all";
-import { Logger } from "./main";
+import { HttpException, Logger } from "./main";
 
 const app = express();
 
@@ -50,6 +50,13 @@ componentContiner.forEach((item) => {
     // 装载all方法～
     initAll(prototype, element, controllerMetadata, app);
   });
+});
+
+// 装载错误过滤器
+app.use((error, req, res, next) => {
+  if (error instanceof HttpException) {
+    res.json(error.message);
+  }
 });
 
 export default {

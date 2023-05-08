@@ -20,6 +20,8 @@ export enum HTTP_KEY {
   Param = "param",
   Body = "body",
   Ip = "ip",
+  Req = "req",
+  Res = "res",
 }
 
 export interface IControllerMetadata {
@@ -228,7 +230,7 @@ export interface IParameterMetadata {
   name: string;
   index: number;
 }
-export const Query: ParameterDecorator = (target, name, index) => {
+export const RequestQuery: ParameterDecorator = (target, name, index) => {
   Reflect.defineMetadata(
     HTTP_KEY.Query,
     {
@@ -239,7 +241,7 @@ export const Query: ParameterDecorator = (target, name, index) => {
   );
 };
 
-export const Param: ParameterDecorator = (target, name, index) => {
+export const RequestParam: ParameterDecorator = (target, name, index) => {
   Reflect.defineMetadata(
     HTTP_KEY.Param,
     {
@@ -250,7 +252,7 @@ export const Param: ParameterDecorator = (target, name, index) => {
   );
 };
 
-export const Body: ParameterDecorator = (target, name, index) => {
+export const RequestBody: ParameterDecorator = (target, name, index) => {
   Reflect.defineMetadata(
     HTTP_KEY.Body,
     {
@@ -261,9 +263,31 @@ export const Body: ParameterDecorator = (target, name, index) => {
   );
 };
 
-export const Ip: ParameterDecorator = (target, name, index) => {
+export const RequestIp: ParameterDecorator = (target, name, index) => {
   Reflect.defineMetadata(
     HTTP_KEY.Ip,
+    {
+      name: name,
+      index: index,
+    },
+    target
+  );
+};
+
+export const Req: ParameterDecorator = (target, name, index) => {
+  Reflect.defineMetadata(
+    HTTP_KEY.Req,
+    {
+      name: name,
+      index: index,
+    },
+    target
+  );
+};
+
+export const Res: ParameterDecorator = (target, name, index) => {
+  Reflect.defineMetadata(
+    HTTP_KEY.Res,
     {
       name: name,
       index: index,
