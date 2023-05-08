@@ -1,8 +1,10 @@
 import { Injectable } from "../src/main";
+import { DService } from "./dd.service";
 
 @Injectable
 export class CService {
+  constructor(private readonly dService: DService) {}
   public getText() {
-    return "访问到了CService";
+    return this.dService.getText();
   }
 }

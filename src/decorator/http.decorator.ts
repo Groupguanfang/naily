@@ -56,11 +56,10 @@ export const RestController = function (path: string = "/"): ClassDecorator {
       });
     }
     // 遍历参数看看是否是DI类
-    function childCall(params?: any[], args = [], deep = 0) {
+    function childCall(params?: any[], args = []) {
       let whatCircle: any[] = [];
       if (params) {
         whatCircle = params;
-        deep++;
       } else {
         whatCircle = classParams;
       }
@@ -83,9 +82,13 @@ export const RestController = function (path: string = "/"): ClassDecorator {
                   ...parseParam(param, jtem)
                 );
               }
-              childCall(param, args[index], deep);
+              childCall(param, args[index]);
             } else {
-              args.push(new jtem());
+              if (!params) {
+                args.push(new jtem());
+              } else {
+                args[Object.keys(args)[index]] = new jtem();
+              }
             }
           } else {
             throw new Error("发现有一个类没有标注@Injectable");
