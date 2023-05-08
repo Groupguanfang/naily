@@ -5,11 +5,8 @@ import {
   IMethodMetadata,
 } from "../decorator/http.decorator";
 import { join } from "path";
-import {
-  IinitParameter,
-  analysisParameter,
-  initParameter,
-} from "../common/parameter";
+import { initParameter } from "../common/parameter";
+import { initMethod } from "./init";
 
 export function initGET(
   prototype: string[],
@@ -34,21 +31,5 @@ export function initGET(
   const metadata = initParameter(controllerMetadata);
 
   // 装载GET方法
-  GetMethod(fn, urlPath, app, metadata);
-}
-
-function GetMethod(
-  fn: Function,
-  urlPath: string,
-  app: Application,
-  metadata: IinitParameter
-) {
-  app.get(urlPath, (req, res) => {
-    // 解析出类中函数的参数
-    const args = analysisParameter(metadata, fn, req);
-    // 将参数赋予给类中函数 然后执行
-    const ret = fn(...args);
-    // 发送类中函数返回的内容
-    res.send(ret);
-  });
+  initMethod("get", urlPath, app, metadata, controllerMetadata, element);
 }

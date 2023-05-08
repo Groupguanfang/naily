@@ -51,4 +51,4 @@ componentContiner.forEach((item) => {
   });
 });
 
-app.listen(8000, () => console.log("已启动"));
+export default app;

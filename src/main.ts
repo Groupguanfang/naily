@@ -10,4 +10,7 @@ export {
   Query,
   Param,
   Body,
+  Ip,
 } from "./decorator/http.decorator";
+
+export { Injectable } from "./decorator/di.decorator";

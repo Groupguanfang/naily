@@ -9,6 +9,7 @@ export interface IinitParameter {
   queryMetadata: IParameterMetadata;
   paramMetadata: IParameterMetadata;
   bodyMetadata: IParameterMetadata;
+  ipMetadata: IParameterMetadata;
 }
 /**
  * 获取类中所有的`ParameterDecorator`所设置的的metadata
@@ -31,10 +32,15 @@ export function initParameter(
     HTTP_KEY.Body,
     controllerMetadata.clazz
   );
+  const ipMetadata: IParameterMetadata = Reflect.getMetadata(
+    HTTP_KEY.Ip,
+    controllerMetadata.clazz
+  );
   return {
     queryMetadata,
     paramMetadata,
     bodyMetadata,
+    ipMetadata,
   };
 }
 
@@ -62,6 +68,9 @@ export function analysisParameter(
   }
   if (metadata.bodyMetadata && metadata.bodyMetadata.name === fn.name) {
     args[metadata.bodyMetadata.index] = req.body;
+  }
+  if (metadata.ipMetadata && metadata.ipMetadata.name === fn.name) {
+    args[metadata.ipMetadata.index] = req.ip;
   }
   return args;
 }

@@ -5,11 +5,8 @@ import {
   IMethodMetadata,
 } from "../decorator/http.decorator";
 import { join } from "path";
-import {
-  IinitParameter,
-  analysisParameter,
-  initParameter,
-} from "../common/parameter";
+import { initParameter } from "../common/parameter";
+import { initMethod } from "./init";
 
 export function initOptions(
   prototype: string[],
@@ -33,22 +30,6 @@ export function initOptions(
   // 解析类函数内方法的参数
   const metadata = initParameter(controllerMetadata);
 
-  // 装载PATCH方法
-  OptionsMethod(fn, urlPath, app, metadata);
-}
-
-function OptionsMethod(
-  fn: Function,
-  urlPath: string,
-  app: Application,
-  metadata: IinitParameter
-) {
-  app.options(urlPath, (req, res) => {
-    // 解析出类中函数的参数
-    const args = analysisParameter(metadata, fn, req);
-    // 将参数赋予给类中函数 然后执行
-    const ret = fn(...args);
-    // 发送类中函数返回的内容
-    res.send(ret);
-  });
+  // 装载OPTIONS方法
+  initMethod("options", urlPath, app, metadata, controllerMetadata, element);
 }

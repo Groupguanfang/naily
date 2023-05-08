@@ -5,11 +5,8 @@ import {
   IMethodMetadata,
 } from "../decorator/http.decorator";
 import { join } from "path";
-import {
-  IinitParameter,
-  analysisParameter,
-  initParameter,
-} from "../common/parameter";
+import { initParameter } from "../common/parameter";
+import { initMethod } from "./init";
 
 export function initDelete(
   prototype: string[],
@@ -33,22 +30,6 @@ export function initDelete(
   // 解析类函数内方法的参数
   const metadata = initParameter(controllerMetadata);
 
-  // 装载PATCH方法
-  DeleteMethod(fn, urlPath, app, metadata);
-}
-
-function DeleteMethod(
-  fn: Function,
-  urlPath: string,
-  app: Application,
-  metadata: IinitParameter
-) {
-  app.delete(urlPath, (req, res) => {
-    // 解析出类中函数的参数
-    const args = analysisParameter(metadata, fn, req);
-    // 将参数赋予给类中函数 然后执行
-    const ret = fn(...args);
-    // 发送类中函数返回的内容
-    res.send(ret);
-  });
+  // 装载DELETE方法
+  initMethod("delete", urlPath, app, metadata, controllerMetadata, element);
 }
