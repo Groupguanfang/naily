@@ -7,6 +7,7 @@ import {
 import { join } from "path";
 import { initParameter } from "../common/parameter";
 import { initMethod } from "./init";
+import { Logger } from "../main";
 
 export function initAll(
   prototype: string[],
@@ -21,11 +22,9 @@ export function initAll(
 
   if (!methodGETData) return;
 
-  const { info, fn } = methodGETData;
+  const { info } = methodGETData;
   // url路径拼接
   const urlPath = join("/" + controllerMetadata.path, info).replace(/\\/g, "/");
-
-  console.log("监测到路由" + urlPath + "已装载");
 
   // 解析类函数内方法的参数
   const metadata = initParameter(controllerMetadata);

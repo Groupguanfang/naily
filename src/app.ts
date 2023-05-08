@@ -12,6 +12,7 @@ import { initPatch } from "./router/patch";
 import { initDelete } from "./router/delete";
 import { initOptions } from "./router/options";
 import { initAll } from "./router/all";
+import { Logger } from "./main";
 
 const app = express();
 
@@ -51,4 +52,15 @@ componentContiner.forEach((item) => {
   });
 });
 
-export default app;
+export default {
+  listen(port: number, callBack?: Function) {
+    app.listen(port, () => {
+      if (callBack) {
+        callBack();
+        return;
+      } else {
+        new Logger().log("Naily APP已经在端口" + port + "启动");
+      }
+    });
+  },
+};

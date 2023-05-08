@@ -17,13 +17,14 @@
   "author": "Zero <gczgroup@qq.com>",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.2",
-    "reflect-metadata": "^0.1.13",
     "@types/express": "^4.17.17",
-    "@types/node": "^17.0.16"
+    "@types/node": "^17.0.16",
+    "express": "^4.17.2",
+    "reflect-metadata": "^0.1.13"
   },
   "devDependencies": {
     "@types/express-serve-static-core": "^4.17.34",
+    "chalk": "^4.1.2",
     "express-serve-static-core": "^0.1.1"
   }
 }

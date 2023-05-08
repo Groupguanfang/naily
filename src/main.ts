@@ -14,3 +14,5 @@ export {
 } from "./decorator/http.decorator";
 
 export { Injectable } from "./decorator/di.decorator";
+
+export { Logger } from "./logger/instance";

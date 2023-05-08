@@ -25,8 +25,6 @@ export function initPatch(
   // url路径拼接
   const urlPath = join("/" + controllerMetadata.path, info).replace(/\\/g, "/");
 
-  console.log("监测到路由" + urlPath + "已装载");
-
   // 解析类函数内方法的参数
   const metadata = initParameter(controllerMetadata);
 

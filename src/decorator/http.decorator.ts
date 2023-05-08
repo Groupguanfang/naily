@@ -1,5 +1,7 @@
 import "reflect-metadata";
 import { DI_KEY } from "./di.decorator";
+import { Logger } from "../main";
+import { ICoreError } from "../errors/http.filter";
 
 // 容器装载所有的类
 type Constructor<T = any> = new (...args: any[]) => T;
@@ -93,7 +95,8 @@ export const RestController = function (path: string = "/"): ClassDecorator {
               }
             }
           } else {
-            throw new Error("发现有一个类没有标注@Injectable");
+            const ERR = `有一个被没有被注入的名为${jtem.name}的服务被强制注入到${target.name}控制器里面。请检查错误。`;
+            throw new ICoreError(ERR);
           }
         }
       });
