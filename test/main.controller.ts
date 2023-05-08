@@ -5,7 +5,6 @@ import { AppService } from "./main.service";
 // 这里导出一个类 用controller装饰起来～
 @RestController()
 export class AppController {
-  /*
   // 这里注入一个服务～
   constructor(private readonly appService: AppService) {}
   // 这里用get装饰起来～
@@ -16,5 +15,5 @@ export class AppController {
       statusCode: this.appService.getData(),
       message: "Hello world",
     };
-  }*/
+  }
 }

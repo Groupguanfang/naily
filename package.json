@@ -1,6 +1,6 @@
 {
   "name": "naily",
-  "version": "2.0.1",
+  "version": "2.0.3",
   "description": "写了一个没有模块系统的 Minimal Nest.js 写着玩的～",
   "main": "dist/src/main.js",
   "files": [
@@ -18,12 +18,12 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.2",
-    "reflect-metadata": "^0.1.13"
+    "reflect-metadata": "^0.1.13",
+    "@types/express": "^4.17.17",
+    "@types/node": "^17.0.16"
   },
   "devDependencies": {
-    "@types/express": "^4.17.17",
     "@types/express-serve-static-core": "^4.17.34",
-    "@types/node": "^17.0.16",
     "express-serve-static-core": "^0.1.1"
   }
 }

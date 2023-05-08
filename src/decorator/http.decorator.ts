@@ -65,7 +65,7 @@ export const RestController = function (path: string = "/"): ClassDecorator {
         whatCircle = classParams;
       }
       // 如果没有任何注入的情况下
-      if (!whatCircle) return [];
+      // if (!whatCircle) return [];
       whatCircle.forEach((jtem, index) => {
         if (typeof jtem === "function") {
           // 如果是Injectable
@@ -84,9 +84,11 @@ export const RestController = function (path: string = "/"): ClassDecorator {
                 );
               }
               childCall(param, args[index], deep);
+            } else {
+              args.push(new jtem());
             }
           } else {
-            args.push(jtem);
+            throw new Error("发现有一个类没有标注@Injectable");
           }
         }
       });
