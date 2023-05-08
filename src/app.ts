@@ -12,7 +12,8 @@ import { initPatch } from "./router/patch";
 import { initDelete } from "./router/delete";
 import { initOptions } from "./router/options";
 import { initAll } from "./router/all";
-import { HttpException, Logger } from "./main";
+import { ExceptionFilter, HttpException, Logger } from "./main";
+import { NextFunction, Request, Response } from "express-serve-static-core";
 
 const app = express();
 
@@ -49,14 +50,27 @@ componentContiner.forEach((item) => {
     initOptions(prototype, element, controllerMetadata, app);
     // 装载all方法～
     initAll(prototype, element, controllerMetadata, app);
-  });
-});
 
-// 装载错误过滤器
-app.use((error, req, res, next) => {
-  if (error instanceof HttpException) {
-    res.json(error.message);
-  }
+    // 装载错误过滤器
+    app.use(
+      (error: unknown, req: Request, res: Response, next: NextFunction) => {
+        const filterReflect: { filter: ExceptionFilter; fn: Function } =
+          Reflect.getMetadata(HTTP_KEY.Filter, prototype[element]);
+        if (filterReflect) {
+          return filterReflect.filter.catch(HttpException, req, res);
+        }
+        if (error instanceof HttpException) {
+          let value = error.message as unknown as {
+            statusCode: number;
+            data: any;
+          };
+          res.status(value.statusCode).send(value.data);
+        } else if (error instanceof Error) {
+          res.json(error.message);
+        }
+      }
+    );
+  });
 });
 
 export default {
@@ -70,4 +84,5 @@ export default {
       }
     });
   },
+  use: app.use,
 };

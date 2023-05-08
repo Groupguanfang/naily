@@ -1,7 +1,6 @@
 import "reflect-metadata";
 import { DI_KEY } from "./di.decorator";
-import { Logger } from "../main";
-import { ICoreError } from "../errors/http.filter";
+import { ExceptionFilter, ICoreError } from "../errors/http.filter";
 
 // 容器装载所有的类
 type Constructor<T = any> = new (...args: any[]) => T;
@@ -16,6 +15,7 @@ export enum HTTP_KEY {
   Delete = "delete",
   Options = "options",
   All = "all",
+  Filter = "filter",
   Query = "query",
   Param = "param",
   Body = "body",
@@ -219,6 +219,19 @@ export const RequestMapping = (info: string = "/"): MethodDecorator => {
       HTTP_KEY.All,
       {
         info,
+        fn: desc.value,
+      },
+      desc.value
+    );
+  };
+};
+
+export const UseFilter = (filter: ExceptionFilter): MethodDecorator => {
+  return (target, methodName, desc) => {
+    Reflect.defineMetadata(
+      HTTP_KEY.Filter,
+      {
+        filter,
         fn: desc.value,
       },
       desc.value

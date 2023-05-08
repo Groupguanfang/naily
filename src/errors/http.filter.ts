@@ -1,4 +1,6 @@
+import { Request, Response } from "express-serve-static-core";
 import { Logger } from "../main";
+import { HttpStatus, HttpStatusText } from "./http-status";
 
 export class ICoreError extends Error {
   constructor(message: string) {
@@ -7,14 +9,20 @@ export class ICoreError extends Error {
   }
 }
 
-export function HttpException<T extends any>(message?: T): void {
+export function HttpException<T extends any>(
+  code: HttpStatus,
+  message?: T
+): void {
   this.message = (() => {
     if (!message) {
       return {
-        statusCode: 500,
-        message: "Internal Server Error",
-        error: "HttpException",
-        timestamp: new Date(),
+        statusCode: code,
+        data: {
+          statusCode: code,
+          message: HttpStatusText[code],
+          error: "HttpException",
+          timestamp: new Date(),
+        },
       };
     } else return message;
   })();
@@ -23,3 +31,7 @@ export function HttpException<T extends any>(message?: T): void {
 }
 HttpException.prototype = new Error();
 HttpException.prototype.constructor = HttpException;
+
+export interface ExceptionFilter {
+  catch(exception: typeof HttpException, req: Request, res: Response): void;
+}
