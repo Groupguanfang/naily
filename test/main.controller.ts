@@ -12,8 +12,8 @@ export class AppController {
   public getHello(@Ip ip: string) {
     // 返回一个JSON对象吧
     return {
-      statusCode: this.appService.getData(),
-      message: "Hello world",
+      statusCode: 200,
+      message: "hello",
     };
   }
 }

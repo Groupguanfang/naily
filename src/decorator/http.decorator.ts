@@ -64,7 +64,9 @@ export const RestController = function (path: string = "/"): ClassDecorator {
         whatCircle = classParams;
       }
       // 如果没有任何注入的情况下
-      // if (!whatCircle) return [];
+      if (typeof whatCircle !== "object") {
+        return [];
+      }
       whatCircle.forEach((jtem, index) => {
         if (typeof jtem === "function") {
           // 如果是Injectable
