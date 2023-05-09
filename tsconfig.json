@@ -50,6 +50,7 @@
     "experimentalDecorators": true,        // 启用装饰器
     "emitDecoratorMetadata": true,          // 为装饰器提供元数据的支持
     "skipLibCheck": true,                   // 跳过lib库检查
+    "resolveJsonModule": true
   },
   "exclude": ["node_modules", "dist"],
   "include": ["./**/*"]

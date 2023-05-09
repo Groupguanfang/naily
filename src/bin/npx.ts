@@ -1,10 +1,18 @@
 import inquirer = require("inquirer");
-import chalk = require("chalk");
 import ora = require("ora");
 import { join } from "path";
 import { download, extract } from "gitly";
 import { execSync } from "child_process";
 import content from "./content";
+
+const args = process.argv.slice(2);
+args.forEach((item) => {
+  if (item === "-v") {
+    console.log(content);
+    console.log("Version: v2.2.4");
+    process.exit();
+  }
+});
 
 interface IPrompt {
   projectName: string;

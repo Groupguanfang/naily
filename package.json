@@ -4,7 +4,9 @@
   "description": "写了一个没有模块系统的 Minimal Nest.js 写着玩的～",
   "homepage": "https://github.com/Groupguanfang/naily",
   "main": "main.js",
-  "bin": "bin/npx.js",
+  "bin": {
+    "create-naily": "bin/npx.js"
+  },
   "keywords": [
     "nestjs",
     "express",
@@ -23,7 +25,8 @@
   "scripts": {
     "build": "sh bin/build.sh",
     "dev": "tsc && node dist/test/main",
-    "publish": "sh bin/publish.sh"
+    "publish": "sh bin/publish.sh",
+    "bin": "ts-node src/bin/npx.ts"
   },
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
@@ -36,16 +39,18 @@
   "license": "Apache-2.0",
   "dependencies": {
     "@types/express": "^4.17.17",
-    "@types/node": "^17.0.16",
-    "express": "^4.17.2",
-    "reflect-metadata": "^0.1.13",
-    "chalk": "^4.1.2",
     "@types/express-serve-static-core": "^4.17.34",
-    "express-serve-static-core": "^0.1.1",
     "@types/inquirer": "^8",
+    "@types/node": "^17.0.16",
+    "chalk": "^4.1.2",
+    "commander": "^10.0.1",
+    "express": "^4.17.2",
+    "express-serve-static-core": "^0.1.1",
     "gitly": "^2.4.2",
     "inquirer": "^8",
     "ora": "^5",
+    "reflect-metadata": "^0.1.13",
+    "ts-node": "^10.9.1",
     "typescript": "^5.0.4"
   }
 }
