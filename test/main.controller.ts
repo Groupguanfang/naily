@@ -5,7 +5,7 @@ import {
   RestController,
   UseFilter,
 } from "../src/main";
-import { CustomFilter } from "./main.filter";
+import { AnyFilter, CustomFilter } from "./main.filter";
 import { AppService } from "./main.service";
 
 // 这里导出一个类 用controller装饰起来～
@@ -24,9 +24,13 @@ export class AppController {
   }
 
   @GetMapping("testError")
-  @UseFilter(new CustomFilter())
+  @UseFilter(AnyFilter)
+  @UseFilter(CustomFilter)
   public testError() {
     // 测试一下错误
-    throw new HttpException(500);
+    return {
+      // @ts-ignore
+      code: aaa,
+    };
   }
 }

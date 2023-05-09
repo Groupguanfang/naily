@@ -14,6 +14,8 @@ import { initOptions } from "./router/options";
 import { initAll } from "./router/all";
 import { ExceptionFilter, HttpException, Logger } from "./main";
 import { NextFunction, Request, Response } from "express-serve-static-core";
+import { UnknownErrorFilter } from "./errors/http.filter";
+import type { IMounted } from "./typings/app.types";
 
 const app = express();
 
@@ -54,19 +56,39 @@ componentContiner.forEach((item) => {
     // 装载错误过滤器
     app.use(
       (error: unknown, req: Request, res: Response, next: NextFunction) => {
-        const filterReflect: { filter: ExceptionFilter; fn: Function } =
-          Reflect.getMetadata(HTTP_KEY.Filter, prototype[element]);
-        if (filterReflect) {
+        // 错误过滤器反射信息
+        interface filterReflectType {
+          filter: ExceptionFilter | UnknownErrorFilter;
+          fn: Function;
+          parameter?: typeof HttpException;
+        }
+        // 获取错误过滤器反射内容
+        const filterReflect: filterReflectType = Reflect.getMetadata(
+          HTTP_KEY.ExceptionFilter,
+          prototype[element]
+        );
+        // 如果有反射信息且parameter是HttpException
+        if (filterReflect && filterReflect.parameter === HttpException) {
           return filterReflect.filter.catch(HttpException, req, res);
         }
+        // 如果error是由HttpException抛出的
         if (error instanceof HttpException) {
-          let value = error.message as unknown as {
+          let { statusCode, data } = error.message as unknown as {
             statusCode: number;
             data: any;
           };
-          res.status(value.statusCode).send(value.data);
-        } else if (error instanceof Error) {
-          res.json(error.message);
+          res.status(statusCode).send(data);
+          // 如果不是 则说明是未知的UnknownError
+        } else {
+          // 获取Unknown Error的反射信息
+          const unknownReflect = Reflect.getMetadata(
+            HTTP_KEY.UnknownErrorFilter,
+            prototype[element]
+          );
+          // 如果有反射信息且抓取内容为空
+          if (unknownReflect && !unknownReflect.parameter) {
+            return unknownReflect.filter.catch(error, req, res);
+          }
         }
       }
     );
@@ -84,5 +106,18 @@ export default {
       }
     });
   },
-  use: app.use,
-};
+  useMiddleware(...args) {
+    app.use(args);
+    return this;
+  },
+
+  /**
+   * 全局filter正在开发中 还没做好（（
+   *
+   * @deprecated
+   * @param filter 传入一个过滤器
+   */
+  useFilter(filter: Function) {
+    return this;
+  },
+} as IMounted;

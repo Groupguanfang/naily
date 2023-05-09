@@ -13,11 +13,16 @@ export {
   RequestIp,
   Req,
   Res,
-  UseFilter,
 } from "./decorator/http.decorator";
 
 export { Injectable } from "./decorator/di.decorator";
 
+export { UseFilter, Catch } from "./decorator/errors.decorator";
+
 export { Logger } from "./logger/instance";
 
-export { HttpException, ExceptionFilter } from "./errors/http.filter";
+export {
+  HttpException,
+  ExceptionFilter,
+  UnknownErrorFilter,
+} from "./errors/http.filter";

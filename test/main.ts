@@ -2,4 +2,8 @@
 import "./main.controller";
 // import进来监听函数
 import app from "../src/app";
-app.listen(8000);
+app
+  .useMiddleware("/", (req, res) => {})
+  .useMiddleware()
+  .useMiddleware()
+  .listen(8000);

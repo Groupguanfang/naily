@@ -35,3 +35,15 @@ HttpException.prototype.constructor = HttpException;
 export interface ExceptionFilter {
   catch(exception: typeof HttpException, req: Request, res: Response): void;
 }
+
+export class ExceptionFilterClass implements ExceptionFilter {
+  catch(exception: typeof HttpException, req: Request, res: Response): void {}
+}
+
+export interface UnknownErrorFilter {
+  catch(exception: unknown, req: Request, res: Response): void;
+}
+
+export class UnknownErrorFilterClass implements UnknownErrorFilter {
+  catch(exception: unknown, req: Request, res: Response): void {}
+}
