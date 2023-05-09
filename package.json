@@ -1,14 +1,14 @@
 {
   "name": "naily",
-  "version": "2.0.8",
+  "version": "2.0.10",
   "description": "写了一个没有模块系统的 Minimal Nest.js 写着玩的～",
   "main": "dist/src/main.js",
   "files": [
-    "dist/src"
+    "dist/*"
   ],
   "scripts": {
-    "build": "tsc",
-    "dev": "npm run build && node dist/test/main",
+    "build": "tsc -p tsconfig.build.json",
+    "dev": "tsc && node dist/test/main",
     "prepublishOnly": "npm run build"
   },
   "publishConfig": {
