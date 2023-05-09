@@ -9,7 +9,7 @@ const args = process.argv.slice(2);
 args.forEach((item) => {
   if (item === "-v") {
     console.log(content);
-    console.log("Version: v2.2.4");
+    console.log("Version: v2.2.5");
     process.exit();
   }
 });
