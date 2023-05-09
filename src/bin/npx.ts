@@ -47,7 +47,8 @@ async function downloadRepo(options: IPrompt): Promise<boolean> {
 }
 
 async function main(): Promise<void> {
-  console.log(chalk.bgGreenBright(content));
+  console.log(content);
+  console.log();
   const answer = await inquirer.prompt<IPrompt>(LIST);
   await downloadRepo(answer);
 }
