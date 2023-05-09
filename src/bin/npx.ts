@@ -4,6 +4,7 @@ import ora = require("ora");
 import { join } from "path";
 import { download, extract } from "gitly";
 import { execSync } from "child_process";
+import content from "./content";
 
 interface IPrompt {
   projectName: string;
@@ -46,7 +47,7 @@ async function downloadRepo(options: IPrompt): Promise<boolean> {
 }
 
 async function main(): Promise<void> {
-  console.log(chalk.bgGreenBright("Naily"));
+  console.log(chalk.bgGreenBright(content));
   const answer = await inquirer.prompt<IPrompt>(LIST);
   await downloadRepo(answer);
 }
