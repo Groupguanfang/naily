@@ -1,6 +1,6 @@
 {
   "name": "naily",
-  "version": "2.0.12",
+  "version": "2.0.13",
   "description": "写了一个没有模块系统的 Minimal Nest.js 写着玩的～",
   "main": "main.js",
   "scripts": {
