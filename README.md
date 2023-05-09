@@ -10,10 +10,10 @@
 
 ### 安装
 
-必须有`node^12` + `npm` + `npx`环境，然后运行 cli 命令：
+需有`node^12` + `pnpm`环境，然后运行 cli 命令：
 
 ```sh
-npx naily
+pnpx naily
 ```
 
 ### 一个简单的小示例
