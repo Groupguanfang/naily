@@ -17,14 +17,14 @@
 import "./main.controller";
 // import进来监听函数
 import app from "naily/app";
-app.listen(8000, () => console.log("app已在8000端口启动"));
+app.listen(8000);
 ```
 
 `main.controller.ts`
 
 ```typescript
 // 导入控制器注解和GET方法注解
-import { GetMapping, Ip, RestController } from "naily";
+import { GetMapping, RequestIp, RestController } from "naily";
 // 导入一个服务
 import { AppService } from "./main.service";
 
@@ -35,10 +35,12 @@ export class AppController {
   constructor(private readonly appService: AppService) {}
   // 这里用get装饰起来～
   @GetMapping()
-  public getHello(@Ip ip: string) {
+  // 使用@RequestIp可以获取到请求发出地的IP地址哦
+  public getHello(@RequestIp ip: string) {
     // 返回一个JSON对象吧
     return {
-      statusCode: this.appService.getData(),
+      ip: ip,
+      data: this.appService.getData(),
       message: "Hello world",
     };
   }
@@ -73,10 +75,15 @@ export class AppService {
 | `PatchMapping`   | 标识 Patch 方法装饰器             |
 | `DeleteMapping`  | 标识 Delete 方法装饰器            |
 | `RequestMapping` | 匹配所有方法装饰器                |
-| `Query`          | 获取 URL Query 装饰器             |
-| `Param`          | 获取 URL Param 装饰器             |
-| `Body`           | 获取 URL Body 装饰器              |
-| `Ip`             | 获取 URL Ip 装饰器                |
+| `RequestQuery`   | 获取 URL Query 装饰器             |
+| `RequestParam`   | 获取 URL Param 装饰器             |
+| `RequestBody`    | 获取 URL Body 装饰器              |
+| `RequestIp`      | 获取 Ip 地址 装饰器               |
+| `UseFilter`      | 使用错误过滤器 ｜                 |
+
+## 错误过滤器
+
+参考`test/main.filter.ts`。
 
 ## 感谢
 
