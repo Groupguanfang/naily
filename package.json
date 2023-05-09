@@ -1,10 +1,10 @@
 {
   "name": "naily",
-  "version": "2.0.7",
+  "version": "2.0.8",
   "description": "写了一个没有模块系统的 Minimal Nest.js 写着玩的～",
   "main": "dist/src/main.js",
   "files": [
-    "dist"
+    "dist/src"
   ],
   "scripts": {
     "build": "tsc",

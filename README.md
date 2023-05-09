@@ -14,10 +14,22 @@
 
 ```typescript
 // 注入你写的控制器
+// 必须在导入app对象之前导入 才能被检测到并挂载
 import "./main.controller";
-// import进来监听函数
-import app from "naily/app";
-app.listen(8000);
+import "./xxxxxxx";
+
+// 所有控制器都import进来之后 再在最后import app
+import app from "naily/dist/src/app";
+
+app
+  // 使用useMiddleware创建中间件
+  .useMiddleware((req, res, next) => {
+    // 这里编写您的中间件...
+  })
+  // 使用useFilter将在全局挂载Filter
+  .useFilter(MyFilter)
+  // 最后使用boot启动服务器
+  .boot(8000);
 ```
 
 `main.controller.ts`

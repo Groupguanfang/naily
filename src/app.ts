@@ -96,7 +96,7 @@ componentContiner.forEach((item) => {
 });
 
 export default {
-  listen(port: number, callBack?: Function) {
+  boot(port: number, callBack?: Function) {
     app.listen(port, () => {
       if (callBack) {
         callBack();
