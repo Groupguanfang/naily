@@ -1,8 +1,24 @@
 {
   "name": "naily",
-  "version": "2.0.13",
+  "version": "2.0.14",
   "description": "写了一个没有模块系统的 Minimal Nest.js 写着玩的～",
+  "homepage": "https://github.com/Groupguanfang/naily",
   "main": "main.js",
+  "keywords": [
+    "nestjs",
+    "express",
+    "nest",
+    "midwayjs",
+    "midway",
+    "nestjs-backend"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Groupguanfang/naily"
+  },
+  "engines": {
+    "node": ">= 12"
+  },
   "scripts": {
     "build": "sh bin/build.sh",
     "dev": "tsc && node dist/test/main",
@@ -11,7 +27,11 @@
   "publishConfig": {
     "registry": "https://registry.npmjs.org"
   },
-  "author": "Zero <gczgroup@qq.com>",
+  "author": {
+    "name": "Zero",
+    "email": "gczgroup@qq.com",
+    "url": "https://github.com/Groupguanfang"
+  },
   "license": "ISC",
   "dependencies": {
     "@types/express": "^4.17.17",
