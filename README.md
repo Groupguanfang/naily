@@ -8,6 +8,14 @@
 
 > 只支持 `TypeScript`，没去特别适配 JavaScript 和 Babel 转译器。如果使用有问题别问我（
 
+### 安装
+
+必须有`node^12` + `npm` + `npx`环境，然后运行 cli 命令：
+
+```sh
+npx naily
+```
+
 ### 一个简单的小示例
 
 `main.ts`
