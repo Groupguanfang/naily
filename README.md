@@ -19,7 +19,7 @@ import "./main.controller";
 import "./xxxxxxx";
 
 // 所有控制器都import进来之后 再在最后import app
-import app from "naily/dist/src/app";
+import app from "naily/app";
 
 app
   // 使用useMiddleware创建中间件
