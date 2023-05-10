@@ -26,3 +26,11 @@ export {
   ExceptionFilter,
   UnknownErrorFilter,
 } from "./errors/http.filter";
+
+export {
+  HttpStatus,
+  IHttpStatusText,
+  HttpStatusText,
+} from "./errors/http-status";
+
+export { TypeORMService, InjectRepository } from "./typeorm.service";

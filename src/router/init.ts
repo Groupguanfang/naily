@@ -4,6 +4,15 @@ import { IControllerMetadata } from "../decorator/http.decorator";
 import { Logger } from "../main";
 import { types } from "util";
 
+/**
+ *
+ * @param {"get" | "post" | "put" | "patch" | "options" | "delete" | "all"} method  http方法
+ * @param urlPath Controller+MethodDecorator合并出来的地址
+ * @param app Express APP
+ * @param metadata metadata
+ * @param controllerMetadata 控制器metadata
+ * @param element 方法名
+ */
 export function initMethod(
   method: "get" | "post" | "put" | "patch" | "options" | "delete" | "all",
   urlPath: string,

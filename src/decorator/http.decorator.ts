@@ -172,7 +172,7 @@ export interface IMethodMetadata {
 }
 export const GetMapping = (info: string = "/"): MethodDecorator => {
   // desc就是那个函数对象
-  return (target, methodName, desc) => {
+  return (target, methodName, desc: TypedPropertyDescriptor<unknown>) => {
     // 会用到原始函数
     Reflect.defineMetadata(
       HTTP_KEY.Get,

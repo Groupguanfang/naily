@@ -21,7 +21,7 @@ export function initDelete(
 
   if (!methodGETData) return;
 
-  const { info, fn } = methodGETData;
+  const { info } = methodGETData;
   // url路径拼接
   const urlPath = join("/" + controllerMetadata.path, info).replace(/\\/g, "/");
 

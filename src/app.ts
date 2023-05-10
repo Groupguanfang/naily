@@ -1,4 +1,4 @@
-import * as express from "express";
+import express = require("express");
 import "reflect-metadata";
 import {
   componentContiner,
@@ -16,6 +16,7 @@ import { ExceptionFilter, HttpException, Logger } from "./main";
 import { NextFunction, Request, Response } from "express-serve-static-core";
 import { UnknownErrorFilter } from "./errors/http.filter";
 import type { IMounted } from "./typings/app.types";
+import { DataSource, type DataSourceOptions } from "typeorm";
 
 const app = express();
 
@@ -100,18 +101,17 @@ componentContiner.forEach((item) => {
   });
 });
 
-export default {
-  boot(port: number, callBack?: Function) {
-    app.listen(port, () => {
+const init: IMounted = {
+  boot(port: number, callBack?: Function): void {
+    app.listen(port, (): void => {
       if (callBack) {
         callBack();
-        return;
       } else {
         new Logger().log("Naily APP已经在端口" + port + "启动");
       }
     });
   },
-  useMiddleware(...args) {
+  useMiddleware(...args): IMounted {
     if (!args) {
       throw new TypeError("app.useMiddleware() 必须是一个合法的中间件函数");
     }
@@ -125,7 +125,19 @@ export default {
    * @deprecated
    * @param filter 传入一个过滤器
    */
-  useFilter(filter: Function) {
+  useFilter(filter: Function): IMounted {
     return this;
   },
-} as IMounted;
+  /**
+   * 使用TYPEORM
+   *
+   * @param options TYPEORM选项
+   */
+  async useTypeORM(options: DataSourceOptions) {
+    const connection = new DataSource(options);
+    await connection.initialize();
+    return connection;
+  },
+};
+
+export default init;
