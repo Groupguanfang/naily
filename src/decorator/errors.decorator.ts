@@ -1,4 +1,5 @@
-import { ExceptionFilter, HttpException } from "../main";
+import "reflect-metadata";
+import { HttpException } from "../main";
 import { HTTP_KEY } from "./http.decorator";
 
 const enum ERROR_KEY {

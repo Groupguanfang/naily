@@ -38,6 +38,9 @@ componentContiner.forEach((item) => {
 
   // 反射获取方法，并进行方法增强
   methodNames.forEach((element) => {
+    // 下面的代码都是一样的 只是换了个方法罢了～
+    // 看一个函数的就够了
+
     // 装载get方法～
     initGET(prototype, element, controllerMetadata, app);
     // 装载post方法～
@@ -54,6 +57,8 @@ componentContiner.forEach((item) => {
     initAll(prototype, element, controllerMetadata, app);
 
     // 装载错误过滤器
+    // 这个逻辑没有处理得太好 之后再慢慢打算
+    // 这个就是@UseFilter的逻辑了
     app.use(
       (error: unknown, req: Request, res: Response, next: NextFunction) => {
         // 错误过滤器反射信息
@@ -107,7 +112,10 @@ export default {
     });
   },
   useMiddleware(...args) {
-    app.use(args);
+    if (!args) {
+      throw new TypeError("app.useMiddleware() 必须是一个合法的中间件函数");
+    }
+    app.use(...args);
     return this;
   },
 

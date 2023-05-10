@@ -4,12 +4,14 @@ import { join } from "path";
 import { download, extract } from "gitly";
 import { execSync } from "child_process";
 import content from "./content";
+import { readFileSync } from "fs";
 
 const args = process.argv.slice(2);
 args.forEach((item) => {
   if (item === "-v") {
     console.log(content);
-    console.log("Version: v2.2.5");
+    const readPackageJSON = readFileSync(join("package.json"));
+    console.log("Version: " + JSON.parse(readPackageJSON.toString()).version);
     process.exit();
   }
 });
