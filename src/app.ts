@@ -100,32 +100,41 @@ componentContiner.forEach((item) => {
   });
 });
 
-export default {
-  boot(port: number, callBack?: Function) {
-    app.listen(port, () => {
-      if (callBack) {
-        callBack();
-        return;
-      } else {
-        new Logger().log("Naily APP已经在端口" + port + "启动");
+export const BootNailyApplication: ClassDecorator = (target: any) => {
+  const init = new target();
+  const mounted = {
+    boot(port: number, callBack?: Function) {
+      app.listen(port, () => {
+        if (callBack) {
+          callBack();
+          return;
+        } else {
+          new Logger().log("Naily APP已经在端口" + port + "启动");
+        }
+      });
+    },
+    useMiddleware(...args) {
+      if (!args) {
+        throw new TypeError("app.useMiddleware() 必须是一个合法的中间件函数");
       }
-    });
-  },
-  useMiddleware(...args) {
-    if (!args) {
-      throw new TypeError("app.useMiddleware() 必须是一个合法的中间件函数");
-    }
-    app.use(...args);
-    return this;
-  },
+      app.use(...args);
+      return this;
+    },
 
-  /**
-   * 全局filter正在开发中 还没做好（（
-   *
-   * @deprecated
-   * @param filter 传入一个过滤器
-   */
-  useFilter(filter: Function) {
-    return this;
-  },
-} as IMounted;
+    /**
+     * 全局filter正在开发中 还没做好（（
+     *
+     * @deprecated
+     * @param filter 传入一个过滤器
+     */
+    useFilter(filter: Function) {
+      return this;
+    },
+  };
+  init.main(mounted);
+};
+
+export type IMount = IMounted;
+export interface CanBoot {
+  main(app: IMount): void;
+}

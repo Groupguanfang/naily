@@ -1,5 +1,12 @@
 // 注入你写的控制器
 import "./main.controller";
-// import进来监听函数
-import app from "../src/app";
-app.useMiddleware("/", (req, res) => {}).boot(8000);
+// 所有控制器导入之后再导入此装饰器！
+import { BootNailyApplication, type CanBoot, IMount } from "../src/app";
+
+@BootNailyApplication
+export class Booter implements CanBoot {
+  // 实现了main函数
+  main(app: IMount): void {
+    app.boot(8000);
+  }
+}

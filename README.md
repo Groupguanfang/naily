@@ -24,10 +24,16 @@ pnpx naily
 // 注入你写的控制器
 // 必须在导入app对象之前导入 才能被检测到并挂载
 import "./main.controller";
-import "./xxxxxxx";
+// 所有控制器导入之后再导入此装饰器！
+import { BootNailyApplication, type CanBoot, IMount } from "../src/app";
 
-// 所有控制器都import进来之后 再在最后import app
-import app from "naily/app";
+@BootNailyApplication
+export class Booter implements CanBoot {
+  // 实现了main函数
+  main(app: IMount): void {
+    app.boot(8000);
+  }
+}
 
 app
   // 使用useMiddleware创建中间件
