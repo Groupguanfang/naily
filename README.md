@@ -1,5 +1,7 @@
 # Naily（Nai Core）
 
+> ❗️项目已经迁移到[https://github.com/nailyjs/core](https://github.com/nailyjs/core)，本仓库不再更新，请注意
+
 基于 Express 实现了一个简易的，无模块系统的 Nest.js。
 
 自动依赖注入特性+无模块系统，企业级开发就算啦，写着玩的，代码写得很垃圾。
